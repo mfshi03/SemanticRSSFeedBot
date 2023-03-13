@@ -10,12 +10,8 @@ from scipy import spatial
 openai.api_key = os.environ.get("OPENAI")
 embedding_cache_path = "embeddings_cache.pkl"
 # load the cache if it exists, and save a copy to disk
-try:
-    embedding_cache = pd.read_pickle(embedding_cache_path)
-except FileNotFoundError:
-    embedding_cache = {}
-with open(embedding_cache_path, "wb") as embedding_cache_file:
-    pickle.dump(embedding_cache, embedding_cache_file)
+
+embedding_cache = pd.read_pickle(embedding_cache_path)
 
 def cosine_similarity(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
