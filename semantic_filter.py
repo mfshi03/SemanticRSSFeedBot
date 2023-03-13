@@ -59,6 +59,11 @@ for title in liked:
     embedding = embedding_from_string(title)
     liked_embeddings.append(embedding)
 
+
+print("Type in a query:")
+query_embedding = embedding_from_string(input())
+
+
 article_embeddings = {}
 for blog in cache:
     if blog == "time" or blog == "py":
@@ -67,7 +72,7 @@ for blog in cache:
         titles.append(article['title'])
         embedding = embedding_from_string(article['title'])
         e1 = embedding
-        e2 = liked_embeddings[0]
+        e2 = query_embedding
         total = distances_from_embeddings(e1, e2)
         #print(article["title"], total)
         #print(e1, e2)

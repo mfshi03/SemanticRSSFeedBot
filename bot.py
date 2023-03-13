@@ -29,7 +29,8 @@ with open("seen.json", "r") as f:
 with open("liked.json", "r") as f:
     liked = json.loads(f.read())
 
-blogs = ["https://ai.googleblog.com/", 
+blogs = [
+        "https://ai.googleblog.com/", 
          "https://blog.janestreet.com/", 
          "https://www.youtube.com/@StanfordMLSysSeminars/streams", 
          "https://www.uber.com/blog/virginia/engineering/ai/",
@@ -38,7 +39,7 @@ blogs = ["https://ai.googleblog.com/",
          "https://blog.comma.ai/",
          "https://medium.com/cruise/engineering/home",
          "https://www.youtube.com/@entreprenuership_opportunities/videos"
-         ]
+    ]
 
 last_update = datetime.datetime.strptime(cache["time"], "%Y-%m-%d %H:%M:%S")
 
