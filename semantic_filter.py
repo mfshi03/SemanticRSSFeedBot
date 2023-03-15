@@ -45,37 +45,78 @@ def embedding_from_string(
             pickle.dump(embedding_cache, embedding_cache_file)
     return embedding_cache[(string, model)]
 
-with open("cache.json", "r") as f:
-    cache = json.load(f)
-titles = []
-liked = ["prestigious us school","How Facebook/Meta Design Sustainable Datacenters with AI - Bilge Acun | Stanford MLSys #52", "super-smart", "Training an Object Detection model in RunwayML to Analyze Posters"]
+def listwise_ranking(query: str) -> dict:
+    '''
+    Returns the dict of the listwise ranking 
+    '''
+    query_embedding = embedding_from_string(query)
+    article_embeddings = {}
 
-liked_embeddings = []
-for title in liked:
-    embedding = embedding_from_string(title)
-    liked_embeddings.append(embedding)
+    with open("cache.json", "r") as f:
+        cache = json.load(f)
+
+    for blog in cache:
+        if blog == "time" or blog == "py":
+            continue
+        for article in cache[blog]:
+            embedding = embedding_from_string(article['title'])
+            e1 = embedding
+            e2 = query_embedding
+            total = distances_from_embeddings(e1, e2)
+            #print(article["title"], total)
+            #print(e1, e2)
+            if "button" not in article:
+                article_embeddings[(article['title'],article['link'])] = total
+            else:
+                article_embeddings[(article['title'],article['button'])] = total
+
+    titles = []
+    links = []
+    similarity = []
+    for k, v in sorted(article_embeddings.items(), key=lambda x: x[1]):
+        titles.append(k[0])
+        links.append(k[1])
+        similarity.append(v)
+    
+    return [titles, links, similarity]
 
 
-print("Type in a query:")
-query_embedding = embedding_from_string(input())
+
+if __name__ == "__main__":
+    with open("cache.json", "r") as f:
+        cache = json.load(f)
+    titles = []
+    liked = []
+
+    liked_embeddings = []
+    for title in liked:
+        embedding = embedding_from_string(title)
+        liked_embeddings.append(embedding)
 
 
-article_embeddings = {}
-for blog in cache:
-    if blog == "time" or blog == "py":
-        continue
-    for article in cache[blog]:
-        titles.append(article['title'])
-        embedding = embedding_from_string(article['title'])
-        e1 = embedding
-        e2 = query_embedding
-        total = distances_from_embeddings(e1, e2)
-        #print(article["title"], total)
-        #print(e1, e2)
-        article_embeddings[(article['title'],article['link'])] = total
+    print("Type in a query:")
+    query_embedding = embedding_from_string(input())
 
 
-for k, v in sorted(article_embeddings.items(), key=lambda x: x[1]):
-    print("Title:", k[0])
-    print("Link:", k[1])
-    print()
+    article_embeddings = {}
+    for blog in cache:
+        if blog == "time" or blog == "py":
+            continue
+        for article in cache[blog]:
+            titles.append(article['title'])
+            embedding = embedding_from_string(article['title'])
+            e1 = embedding
+            e2 = query_embedding
+            total = distances_from_embeddings(e1, e2)
+            #print(article["title"], total)
+            #print(e1, e2)
+            if "button" not in article:
+                article_embeddings[(article['title'],article['link'])] = total
+            else:
+                article_embeddings[(article['title'],article['button'])] = total
+
+
+    for k, v in sorted(article_embeddings.items(), key=lambda x: x[1]):
+        print("Title:", k[0])
+        print("Link:", k[1])
+        print()

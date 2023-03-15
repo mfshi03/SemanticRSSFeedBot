@@ -38,7 +38,8 @@ blogs = [
          "https://medium.com/airbnb-engineering/ai/home",
          "https://blog.comma.ai/",
          "https://medium.com/cruise/engineering/home",
-         "https://www.youtube.com/@entreprenuership_opportunities/videos"
+         "https://www.youtube.com/@entreprenuership_opportunities/videos",
+         "http://ai.stanford.edu/blog/"
     ]
 
 last_update = datetime.datetime.strptime(cache["time"], "%Y-%m-%d %H:%M:%S")
