@@ -45,10 +45,10 @@ def preprocess():
 
     return jsonify({"success": "true"}) 
 
-@app.route('/rank',methods = ['GET'])
+@app.route('/rank',methods = ['POST', 'GET'])
 def rank():
-    query = "water"
-    #query = request.get_json()['query']
+    #query = "water"
+    query = request.get_json()['query']
     if query == None or len(query) == 0:
         return jsonify({'message': 'Queries are missing!'}), 400
 
