@@ -80,6 +80,19 @@ def listwise_ranking(query: str) -> dict:
     
     return [titles, links, similarity]
 
+def rank_urls(query:str, results:str) -> str:
+    article_embeddings = {}
+    query_embedding = embedding_from_string(query)
+    for result in results:
+        embedding = embedding_from_string(result)
+        dist = distances_from_embeddings(query_embedding, embedding)
+        article_embeddings[result] = dist
+        
+    titles = [k for k, v in sorted(article_embeddings.items(), key=lambda x: x[1])]
+    return titles
+
+
+
 
 
 if __name__ == "__main__":

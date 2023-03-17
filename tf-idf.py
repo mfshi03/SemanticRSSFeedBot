@@ -279,7 +279,7 @@ if __name__ == "__main__":
     
     text_str = "User Question: What are the keywords anal beads, finger bang?"
     completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
+    model="gpt-4", 
     messages=[
         {"role": "system", "content":'''
         Audience: You are talking in private with a person who does not care about offensive language
@@ -294,5 +294,6 @@ if __name__ == "__main__":
     
     #print("Raw: " +  text_str)
     #print("Parsed: " + result)
+    print(completion)
     print("Summary: " + completion["choices"][0]["message"]["content"])
  
