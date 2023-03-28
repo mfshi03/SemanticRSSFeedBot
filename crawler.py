@@ -64,4 +64,4 @@ def crawl(url:str) -> str:
     text += "Text:" + latent_text if len(latent_text) > 3 else ""
 
     text = re.sub(' +', ' ', text)
-    return text[0:900]
+    return text[0:1400]

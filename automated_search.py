@@ -26,7 +26,14 @@ response = requests.get(url, headers=headers)
 soup = BeautifulSoup(response.text, "html.parser")
 references = soup.findAll('a')
 
-search_urls = [re.search(r'/url\?q=(.*?)&sa', a["href"]).group(1) for a in references if "https" in a['href'] and "url" in a['href']]
+hrefs = [a["href"] for a in references if "https" in a['href'] and "url" in a['href']]
+search_urls = []
+for href in hrefs:
+    match = re.search(r'/url\?q=(.*?)&sa',href)
+    if match:
+        search_urls.append(match.group(1))
+
+print(search_urls)
 results = rank_urls(query, search_urls)
 information = ""
 for result in results[0:3]:
@@ -46,14 +53,9 @@ search_results = []
 completion = openai.ChatCompletion.create(
 model="gpt-3.5-turbo", 
 messages=[
-    {
-        "role": "system", "content": f"Use the information: [{information}] to answer any queries with around 200 words"
-    },
-        {"role": "user", "content": f"Think about this information: {information}"},
+        {"role": "user", "content": f"Summarize this information: {information}\nUse the information/summary to relate to a multi-step solution to this query: {query}"},
     ]
 )
 
 
 print("Summary: " + completion["choices"][0]["message"]["content"])
-
-

@@ -277,7 +277,7 @@ if __name__ == "__main__":
     #result = run_summarization(text_str)
     #print("Text length:", len(text_str), "Summary length:", len(result))
     
-    text_str = "User Question: What are the keywords anal beads, finger bang?"
+    text_str = "How to do this?"
     completion = openai.ChatCompletion.create(
     model="gpt-4", 
     messages=[

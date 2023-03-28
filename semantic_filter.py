@@ -90,12 +90,39 @@ def rank_urls(query:str, results:str) -> str:
         
     titles = [k for k, v in sorted(article_embeddings.items(), key=lambda x: x[1])]
     return titles
+'''
+python:
+recommendation
+stats
+subscriptions 
+'''
+def recommendation(spending: List[str], categories: List[str]):
+    
+
 
 
 
 
 
 if __name__ == "__main__":
+    with open("cache.json", "r") as f:
+        cache = json.loads(f.read())
+
+    selection = []
+    for blog in cache:
+        if blog == "time" or blog == "py":
+                continue
+        for article in cache[blog]:
+            if "button" not in article:
+                print(article["title"], article["link"])
+                selection.append({"title": article["title"], "link": article["link"]})
+            else:
+                print(article["title"], article["button"])
+                selection.append({"title": article["title"], "link": article["button"]})
+
+    with open("list.json", "w") as f:
+        json.dump(selection, f)
+    '''
     with open("cache.json", "r") as f:
         cache = json.load(f)
     titles = []
@@ -133,3 +160,4 @@ if __name__ == "__main__":
         print("Title:", k[0])
         print("Link:", k[1])
         print()
+    '''

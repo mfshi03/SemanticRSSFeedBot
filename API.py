@@ -47,6 +47,9 @@ def preprocess():
 
 @app.route('/rank',methods = ['POST', 'GET'])
 def rank():
+    '''
+    This should take in query and list
+    '''
     #query = "water"
     query = request.get_json()['query']
     if query == None or len(query) == 0:
@@ -60,7 +63,7 @@ def rank():
 
     return jsonify(response)
 
-     
+
     
 
 if __name__ == '__main__':
